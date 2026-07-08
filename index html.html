@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ឃុំ-សង្កាត់ ខេត្តតាកែវ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&family=Preahvihear&family=Moul&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .khmer-moul {
+            font-family: 'Moul', serif;
+        }
+        .khmer-title {
+            font-family: 'Preahvihear', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white shadow-lg border-b-4 border-yellow-500">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <!-- SVG Emblem Emblem Placeholder -->
+                <div class="bg-white p-2 rounded-full shadow-inner w-16 h-16 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-blue-900" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 10h2v4h-2zm0 5h2v2h-2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="khmer-moul text-lg md:text-xl text-yellow-400 tracking-wide">រដ្ឋបាលខេត្តតាកែវ</h1>
+                    <p class="khmer-title text-sm opacity-90">ប្រព័ន្ធគ្រប់គ្រង និងរៀបចំរបាយការណ៍ផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ឃុំ-សង្កាត់</p>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="exportToWord()" class="inline-flex items-center px-5 py-2.5 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg text-sm transition duration-150 ease-in-out shadow-md hover:shadow-lg focus:outline-none">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    ទាញយកជាឯកសារ MS-Word (.doc)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation / Tabs -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-8 overflow-x-auto py-3">
+                <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn px-3 py-2 text-sm font-medium border-b-2 border-blue-600 text-blue-600 whitespace-nowrap">
+                    ១. សេចក្តីសង្ខេបនាយក
+                </button>
+                <button onclick="switchTab('demographics')" id="tab-demographics" class="tab-btn px-3 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                    ២. ទិន្នន័យប្រជាសាស្ត្រ និងការវិភាគ
+                </button>
+                <button onclick="switchTab('pillars')" id="tab-pillars" class="tab-btn px-3 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                    ៣. សសរស្តម្ភយុទ្ធសាស្ត្រ
+                </button>
+                <button onclick="switchTab('stakeholders')" id="tab-stakeholders" class="tab-btn px-3 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                    ៤. មតិយោបល់អ្នកពាក់ព័ន្ធ
+                </button>
+                <button onclick="switchTab('actions')" id="tab-actions" class="tab-btn px-3 py-2 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 whitespace-nowrap">
+                    ៥. ផែនការសកម្មភាពអនុវត្ត
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        
+        <!-- Tab 1: Overview -->
+        <section id="content-overview" class="tab-content block">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="h-8 w-2 bg-blue-900 rounded-full"></div>
+                    <h2 class="khmer-title text-xl md:text-2xl font-bold text-blue-900">១. សេចក្តីសង្ខេបនាយក (Executive Summary)</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="md:col-span-2 space-y-4 text-justify leading-relaxed">
+                        <p class="text-gray-700">
+                            ខេត្តតាកែវ គឺជាខេត្តមួយដែលមានសក្តានុពលខ្ពស់ផ្នែកកសិកម្ម ទេសចរណ៍វប្បធម៌ និងការអភិវឌ្ឍន៍សេដ្ឋកិច្ចមូលដ្ឋាន។ ផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ឃុំ-សង្កាត់នេះ ត្រូវបានរៀបចំឡើងដើម្បីឆ្លើយតបទៅនឹងតម្រូវការជាក់ស្តែងរបស់ប្រជាពលរដ្ឋ ស្របតាមគោលនយោបាយកំណែទម្រង់វិមជ្ឈការ និងវិសហមជ្ឈការរបស់រាជរដ្ឋាភិបាលកម្ពុជា។
+                        </p>
+                        <p class="text-gray-700">
+                            តាមរយៈការវិភាគទិន្នន័យជាក់លាក់ពីស្រុកទាំង១០ ក្នុងខេត្តតាកែវ ផែនការយុទ្ធសាស្ត្រនេះផ្តោតសំខាន់លើការកែលម្អហេដ្ឋារចនាសម្ព័ន្ធជនបទ ការលើកកម្ពស់សេវាសុខាភិបាល ការពង្រឹងគុណភាពអប់រំ និងការបង្កើនប្រភពចំណូលគ្រួសារ ដើម្បីកាត់បន្ថយភាពក្រីក្រប្រកបដោយចីរភាព។
+                        </p>
+                    </div>
+                    <div class="bg-amber-50 border-l-4 border-yellow-500 p-5 rounded-r-lg shadow-inner">
+                        <h4 class="font-bold text-yellow-800 mb-2">គោលបំណងចម្បងនៃយុទ្ធសាស្ត្រ៖</h4>
+                        <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                            <li>ពង្រឹងសមត្ថភាពរដ្ឋបាលឃុំ-សង្កាត់</li>
+                            <li>បង្កើនការចូលរួមរបស់ប្រជាពលរដ្ឋ</li>
+                            <li>អភិវឌ្ឍសេដ្ឋកិច្ចមូលដ្ឋានប្រកបដោយបរិយាបន្ន</li>
+                            <li>លើកកម្ពស់សមភាពយេនឌ័រក្នុងតួនាទីសម្រេចចិត្ត</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="my-6">
+                    <!-- Clean SVG Placeholder representing strategic meeting -->
+                    <div class="w-full bg-blue-50 border border-blue-200 rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                        <svg class="w-24 h-24 text-blue-800 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                        </svg>
+                        <h5 class="font-bold text-blue-900">[រូបភាព៖ កិច្ចប្រជុំពិគ្រោះយោបល់ស្តីពីផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ខេត្តតាកែវ]</h5>
+                        <p class="text-sm text-gray-500 mt-1">ការប្រជុំរួមគ្នារវាងថ្នាក់ដឹកនាំខេត្ត អាជ្ញាធរមូលដ្ឋាន និងតំណាងដៃគូអភិវឌ្ឍន៍</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: Demographics -->
+        <section id="content-demographics" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="h-8 w-2 bg-blue-900 rounded-full"></div>
+                    <h2 class="khmer-title text-xl md:text-2xl font-bold text-blue-900">២. វិភាគទិន្នន័យប្រជាសាស្ត្រខេត្តតាកែវ (Demographic Data & Analysis)</h2>
+                </div>
+
+                <div class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-5">
+                    <h3 class="font-bold text-blue-900 mb-2">សង្ខេបទិន្នន័យទូទៅខេត្ត (ឆ្នាំ ២០២១-២០២២)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-100">
+                            <span class="text-sm text-gray-500">ចំនួនគ្រួសារសរុប</span>
+                            <div class="text-2xl font-bold text-indigo-900">230,208 គ្រួសារ</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-100">
+                            <span class="text-sm text-gray-500">ប្រជាជនសរុប</span>
+                            <div class="text-2xl font-bold text-blue-900">1,045,811 នាក់</div>
+                        </div>
+                        <div class="bg-white p-4 rounded-md shadow-sm border border-gray-100">
+                            <span class="text-sm text-gray-500">ផលធៀបយេនឌ័រ (ស្រីសរុប)</span>
+                            <div class="text-2xl font-bold text-pink-600">537,021 នាក់ (51.3%)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Selector to trigger cleanup logic and redraw cleanly -->
+                <div class="flex justify-end space-x-2 mb-4">
+                    <button onclick="changeChartType('bar')" id="chart-btn-bar" class="px-4 py-1.5 rounded-md text-xs font-semibold bg-blue-900 text-white shadow-sm">
+                        ក្រាហ្វិកសសរ (Bar Chart)
+                    </button>
+                    <button onclick="changeChartType('line')" id="chart-btn-line" class="px-4 py-1.5 rounded-md text-xs font-semibold bg-gray-200 text-gray-700">
+                        ក្រាហ្វិកខ្សែ (Line Chart)
+                    </button>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="bg-white border rounded-xl p-4 shadow-sm mb-6">
+                    <div class="relative" style="height: 380px;">
+                        <canvas id="districtPopulationChart"></canvas>
+                    </div>
+                    <p class="text-center text-xs text-gray-500 mt-2">ប្រភព៖ តារាងសូចនាករតាមស្រុក-ខណ្ឌ ខេត្តតាកែវ</p>
+                </div>
+
+                <!-- Demographics Table -->
+                <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
+                    <table class="min-w-full divide-y divide-gray-200 text-left text-sm" id="demographic-table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-900 khmer-title">ស្រុក/ក្រុង</th>
+                                <th class="px-4 py-3 font-semibold text-gray-900 text-right khmer-title">ចំនួនគ្រួសារ</th>
+                                <th class="px-4 py-3 font-semibold text-gray-900 text-right khmer-title">ប្រជាជនសរុប</th>
+                                <th class="px-4 py-3 font-semibold text-gray-900 text-right khmer-title">ប្រុសសរុប</th>
+                                <th class="px-4 py-3 font-semibold text-gray-900 text-right khmer-title">ស្រីសរុប</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 bg-white" id="demographics-tbody">
+                            <!-- Dynamic Rows Will Populate Here -->
+                        </tbody>
+                        <tfoot class="bg-gray-50 font-bold">
+                            <tr>
+                                <td class="px-4 py-3 text-gray-900">សរុបខេត្ត</td>
+                                <td class="px-4 py-3 text-right text-indigo-900">230,208</td>
+                                <td class="px-4 py-3 text-right text-blue-950">1,045,811</td>
+                                <td class="px-4 py-3 text-right text-blue-900">508,790</td>
+                                <td class="px-4 py-3 text-right text-pink-700">537,021</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="mt-6 bg-amber-50 p-5 rounded-lg border-l-4 border-yellow-500">
+                    <h4 class="font-bold text-yellow-900 mb-1">💡 លទ្ធផលវិភាគទិន្នន័យគន្លឹះ៖</h4>
+                    <p class="text-gray-700 text-sm leading-relaxed text-justify">
+                        យោងតាមទិន្នន័យជាក់ស្តែង <strong>ស្រុកត្រាំកក់</strong> គឺជាស្រុកដែលមានចំនួនប្រជាជនច្រើនជាងគេបំផុតរហូតដល់ ២០១,២៣២ នាក់ (ស្មើនឹងប្រហែល ១៩.២% នៃប្រជាជនសរុបក្នុងខេត្ត) ខណៈដែល <strong>ស្រុកបូរីជលសារ</strong> មានចំនួនប្រជាជនតិចជាងគេបំផុតគឺត្រឹមតែ ២៩,៣៧៧ នាក់ប៉ុណ្ណោះ។ ស្រីមានចំនួនច្រើនជាងប្រុសនៅគ្រប់ស្រុកទាំងអស់ ដែលនេះបង្ហាញពីតម្រូវការចាំបាច់ក្នុងការរៀបចំផែនការអភិវឌ្ឍន៍សេដ្ឋកិច្ចដែលគិតគូរជាចម្បងដល់ស្រ្តី។
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: Pillars -->
+        <section id="content-pillars" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="h-8 w-2 bg-blue-900 rounded-full"></div>
+                    <h2 class="khmer-title text-xl md:text-2xl font-bold text-blue-900">៣. សសរស្តម្ភយុទ្ធសាស្ត្រគន្លឹះ (Strategic Pillars)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Pillar 1 -->
+                    <div class="border border-blue-100 rounded-xl p-5 hover:shadow-lg transition duration-200 bg-gradient-to-b from-white to-blue-50/20">
+                        <div class="w-12 h-12 bg-blue-900 text-white rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-blue-900 mb-2">សសរស្តម្ភទី១៖ ហេដ្ឋារចនាសម្ព័ន្ធមូលដ្ឋាន</h3>
+                        <p class="text-sm text-gray-600 text-justify">
+                            លើកកម្ពស់គុណភាពផ្លូវលំជនបទ ការសាងសង់ប្រព័ន្ធធារាសាស្ត្រខ្នាតតូច និងការផ្តល់អគ្គិសនីប្រើប្រាស់នៅតាមសហគមន៍ជនបទដាច់ស្រយាល។
+                        </p>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="border border-green-100 rounded-xl p-5 hover:shadow-lg transition duration-200 bg-gradient-to-b from-white to-green-50/20">
+                        <div class="w-12 h-12 bg-green-700 text-white rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-green-800 mb-2">សសរស្តម្ភទី២៖ សុខភាព និងការអប់រំ</h3>
+                        <p class="text-sm text-gray-600 text-justify">
+                            បង្កើនសមត្ថភាពមណ្ឌលសុខភាព និងការលើកកម្ពស់អនាម័យជនបទ ព្រមទាំងផ្តល់ការគាំទ្រសាលារៀន និងកាត់បន្ថយអត្រាបោះបង់ការសិក្សា។
+                        </p>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="border border-purple-100 rounded-xl p-5 hover:shadow-lg transition duration-200 bg-gradient-to-b from-white to-purple-50/20">
+                        <div class="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-lg text-purple-800 mb-2">សសរស្តម្ភទី៣៖ កសិកម្ម និងជីវភាពគ្រួសារ</h3>
+                        <p class="text-sm text-gray-600 text-justify">
+                            ការបណ្តុះបណ្តាលបច្ចេកទេសកសិកម្មទំនើប ធន់នឹងការប្រែប្រួលអាកាសធាតុ និងការបង្កើតសហគមន៍កសិកម្មដើម្បីពង្រឹងទីផ្សារលក់ដូរផលិតផល។
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-blue-50 border border-blue-100 rounded-xl p-6">
+                    <h3 class="font-bold text-blue-900 mb-4 text-center">គំរូសកម្មភាពយុទ្ធសាស្ត្រសំខាន់ៗ</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-start space-x-3">
+                            <div class="text-green-600 mt-1">✔</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">គម្រោងផ្គត់ផ្គង់ទឹកស្អាត</h4>
+                                <p class="text-xs text-gray-500 mt-1">ដំឡើងស្ថានីយចម្រោះទឹក និងប្រព័ន្ធចែកចាយក្នុងឃុំគោលដៅនៃស្រុកកោះអណ្ដែត។</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-start space-x-3">
+                            <div class="text-green-600 mt-1">✔</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">ពង្រីកសេវាមណ្ឌលសុខភាពជនបទ</h4>
+                                <p class="text-xs text-gray-500 mt-1">បន្ថែមឧបករណ៍សម្ភព និងរថយន្តសង្គ្រោះបន្ទាន់សម្រាប់សេវា ២៤ម៉ោង។</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 4: Stakeholders -->
+        <section id="content-stakeholders" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="h-8 w-2 bg-blue-900 rounded-full"></div>
+                    <h2 class="khmer-title text-xl md:text-2xl font-bold text-blue-900">៤. មតិយោបល់ និងការដកស្រង់សំដីពីអ្នកពាក់ព័ន្ធ (Stakeholder Testimonials)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Quote 1 -->
+                    <div class="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 p-6 rounded-xl shadow-sm relative">
+                        <span class="text-6xl text-indigo-200 absolute right-4 top-2 pointer-events-none">“</span>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-indigo-900 text-white flex items-center justify-center font-bold">ត ស</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">លោកស្រី តូច សារ៉ុម</h4>
+                                <p class="text-xs text-indigo-700">តំណាងសហគមន៍ស្រ្តី ស្រុកសំរោង</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 italic leading-relaxed text-justify">
+                            «ការលើកកម្ពស់ជីវភាពស្រ្តីក្នុងសហគមន៍ជាកត្តាចម្បងបំផុត។ ការផ្តល់បណ្តុះបណ្តាលវិជ្ជាជីវៈ និងប្រាក់កម្ចីខ្នាតតូចបានជួយឱ្យស្រ្តីនៅក្នុងឃុំរបស់យើងមានឯករាជ្យភាពផ្នែកហិរញ្ញវត្ថុ និងអាចចូលរួមក្នុងកិច្ចការអភិវឌ្ឍន៍ភូមិឃុំបានកាន់តែច្រើន។»
+                        </p>
+                    </div>
+
+                    <!-- Quote 2 -->
+                    <div class="bg-gradient-to-br from-amber-50 to-white border border-amber-100 p-6 rounded-xl shadow-sm relative">
+                        <span class="text-6xl text-amber-200 absolute right-4 top-2 pointer-events-none">“</span>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-amber-700 text-white flex items-center justify-center font-bold">ស ស</div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">លោក ស៊្រុន សុភ័ក្ត្រ</h4>
+                                <p class="text-xs text-amber-700">មេឃុំគោកធ្លក ស្រុកអង្គរបូរី</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 italic leading-relaxed text-justify">
+                            «បញ្ហាផ្លូវថ្នល់ និងប្រព័ន្ធធារាសាស្ត្រជាក្តីបារម្ភចម្បងរបស់កសិករ។ នៅពេលដែលយើងទទួលបានកញ្ចប់ថវិកាអភិវឌ្ឍន៍ឃុំគ្រប់គ្រាន់ យើងនឹងផ្តល់អាទិភាពដោះស្រាយលើប្រព័ន្ធរំដោះទឹក និងការកសាងផ្លូវលំកៅស៊ូ ដែលជួយសម្រួលដល់ការដឹកជញ្ជូនកសិផល។»
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <!-- Clean SVG Placeholder representing community work -->
+                    <div class="w-full bg-emerald-50 border border-emerald-200 rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                        <svg class="w-24 h-24 text-emerald-800 mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253m0 0A17.919 17.919 0 0012 16.5c3.162 0 6.133-.815 8.716-2.247" />
+                        </svg>
+                        <h5 class="font-bold text-emerald-900">[រូបភាព៖ ការចុះសាកសួរផ្ទាល់ជាមួយប្រជាសហគមន៍ជនបទ]</h5>
+                        <p class="text-sm text-gray-500 mt-1">ការចុះជួបពិភាក្សា និងដកស្រង់យោបល់ដើម្បីកសាងផែនការយុទ្ធសាស្ត្ររួម</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 5: Actions -->
+        <section id="content-actions" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-8 mb-6 border border-gray-100">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="h-8 w-2 bg-blue-900 rounded-full"></div>
+                    <h2 class="khmer-title text-xl md:text-2xl font-bold text-blue-900">៥. ផែនការសកម្មភាព និងការអនុវត្ត (Implementation & Action Plan)</h2>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-gray-700 leading-relaxed text-justify">
+                        ផែនការអនុវត្តនេះត្រូវបានបែងចែកជាដំណាក់កាលត្រីមាស ដើម្បីធានាបាននូវគណនេយ្យភាព ប្រសិទ្ធភាព និងការតាមដានត្រួតពិនិត្យបានទៀងទាត់។ រាល់គម្រោងទាំងអស់ត្រូវមានការវាយតម្លៃផលប៉ះពាល់បរិស្ថាន និងការចូលរួមពីតំណាងប្រជាពលរដ្ឋយ៉ាងតិច ៣០%។
+                    </p>
+
+                    <div class="relative border-l border-blue-200 ml-4 md:ml-6 space-y-8">
+                        <!-- Step 1 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-blue-900 border-2 border-white shadow-sm"></div>
+                            <span class="text-xs font-semibold text-blue-950 uppercase tracking-wider">ដំណាក់កាលទី១៖ ការរៀបចំ និងអនុម័ត</span>
+                            <h4 class="font-bold text-gray-800 text-sm mt-1">ការប្រមូលមតិយោបល់ និងការអនុម័តគម្រោងយុទ្ធសាស្ត្រ</h4>
+                            <p class="text-xs text-gray-500 mt-1">កំណត់សកម្មភាពអាទិភាពតាមការបោះឆ្នោតពីប្រជាពលរដ្ឋក្នុងឃុំ និងសម្រេចយល់ព្រមដោយក្រុមប្រឹក្សាឃុំ-សង្កាត់។</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-yellow-500 border-2 border-white shadow-sm"></div>
+                            <span class="text-xs font-semibold text-yellow-800 uppercase tracking-wider">ដំណាក់កាលទី២៖ លទ្ធកម្ម និងកិច្ចសន្យា</span>
+                            <h4 class="font-bold text-gray-800 text-sm mt-1">លទ្ធកម្មសាងសង់ហេដ្ឋារចនាសម្ព័ន្ធ</h4>
+                            <p class="text-xs text-gray-500 mt-1">រៀបចំដំណើរការដេញថ្លៃគម្រោងសាងសង់ផ្លូវ និងប្រព័ន្ធទឹកស្អាត ប្រកបដោយតម្លាភាព និងគណនេយ្យភាព។</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-green-600 border-2 border-white shadow-sm"></div>
+                            <span class="text-xs font-semibold text-green-700 uppercase tracking-wider">ដំណាក់កាលទី៣៖ ការអនុវត្ត និងតាមដាន</span>
+                            <h4 class="font-bold text-gray-800 text-sm mt-1">ដំណើរការសាងសង់ និងការវាយតម្លៃគុណភាព</h4>
+                            <p class="text-xs text-gray-500 mt-1">ការចុះត្រួតពិនិត្យការដ្ឋានដោយគណៈកម្មការត្រួតពិនិត្យបច្ចេកទេស និងតំណាងប្រជាពលរដ្ឋក្នុងមូលដ្ឋាន។</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 border-t border-gray-800 text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-sm">© ២០២៦ រដ្ឋបាលខេត្តតាកែវ។ រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
+            <p class="text-xs text-gray-600 mt-2">ប្រព័ន្ធនេះត្រូវបានបង្កើតឡើងដើម្បីគាំទ្រការរៀបចំផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ប្រកបដោយចីរភាព និងបរិយាបន្ន។</p>
+        </div>
+    </footer>
+
+    <!-- Script Block containing Demographic Data, Chart.js Management with complete Clean-up logic, and MS Word export template -->
+    <script>
+        // Demographic Dataset
+        const takeoDemographics = [
+            { district: "អង្គរបូរី", families: 11535, total: 54375, male: 26942, female: 27433 },
+            { district: "បាទី", families: 36644, total: 166466, male: 80455, female: 86011 },
+            { district: "បូរីជលសារ", families: 6624, total: 29377, male: 14865, female: 14512 },
+            { district: "គីរីវង់", families: 26775, total: 115237, male: 56054, female: 59183 },
+            { district: "កោះអណ្ដែត", families: 12234, total: 54541, male: 26446, female: 28095 },
+            { district: "ព្រៃកប្បាស", families: 25519, total: 111429, male: 54037, female: 57392 },
+            { district: "សំរោង", families: 31454, total: 143380, male: 69202, female: 74178 },
+            { district: "ដូនកែវ", families: 10046, total: 45769, male: 22402, female: 23367 },
+            { district: "ត្រាំកក់", families: 43639, total: 201232, male: 98303, female: 102929 },
+            { district: "ទ្រាំង", families: 25738, total: 124005, male: 60084, female: 63921 }
+        ];
+
+        // Global Chart Variable for tracking existing instance
+        let districtChart = null;
+        let currentChartType = 'bar';
+
+        // Populating the demographics table dynamically on page load
+        function populateDemographicsTable() {
+            const tbody = document.getElementById('demographics-tbody');
+            tbody.innerHTML = '';
+            takeoDemographics.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-gray-900 font-medium">${row.district}</td>
+                    <td class="px-4 py-3 text-right">${row.families.toLocaleString()}</td>
+                    <td class="px-4 py-3 text-right font-semibold text-blue-950">${row.total.toLocaleString()}</td>
+                    <td class="px-4 py-3 text-right text-gray-600">${row.male.toLocaleString()}</td>
+                    <td class="px-4 py-3 text-right text-pink-700">${row.female.toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- CRITICAL CLEAN-UP LOGIC FOR CHART ---
+        // Destroys any existing chart to free memory and prevent overlap bugs
+        function initDistrictChart(type = 'bar') {
+            const ctx = document.getElementById('districtPopulationChart').getContext('2d');
+            
+            // Clean-up check: Destroy old instance safely if present
+            if (districtChart !== null) {
+                districtChart.destroy();
+                districtChart = null;
+            }
+
+            const labels = takeoDemographics.map(d => d.district);
+            const totalPop = takeoDemographics.map(d => d.total);
+            const femalePop = takeoDemographics.map(d => d.female);
+            const malePop = takeoDemographics.map(d => d.male);
+
+            districtChart = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'ប្រជាជនសរុប',
+                            data: totalPop,
+                            backgroundColor: 'rgba(30, 58, 138, 0.85)', // Deep Blue
+                            borderColor: 'rgb(30, 58, 138)',
+                            borderWidth: 1.5,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'ស្រីសរុប',
+                            data: femalePop,
+                            backgroundColor: 'rgba(219, 39, 119, 0.85)', // Pink/Magenta
+                            borderColor: 'rgb(219, 39, 119)',
+                            borderWidth: 1.5,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: 'Kantumruy Pro',
+                                    size: 11
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Kantumruy Pro',
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    family: 'Kantumruy Pro',
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Change chart type & cleanly rebuild
+        function changeChartType(type) {
+            currentChartType = type;
+            
+            // Toggle active style on buttons
+            const barBtn = document.getElementById('chart-btn-bar');
+            const lineBtn = document.getElementById('chart-btn-line');
+            
+            if (type === 'bar') {
+                barBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                barBtn.classList.add('bg-blue-900', 'text-white');
+                lineBtn.classList.remove('bg-blue-900', 'text-white');
+                lineBtn.classList.add('bg-gray-200', 'text-gray-700');
+            } else {
+                lineBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                lineBtn.classList.add('bg-blue-900', 'text-white');
+                barBtn.classList.remove('bg-blue-900', 'text-white');
+                barBtn.classList.add('bg-gray-200', 'text-gray-700');
+            }
+
+            initDistrictChart(type);
+        }
+
+        // Tab Navigation Switcher
+        function switchTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Reset all active tab styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-blue-600', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+            });
+
+            // Show selected tab content
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+
+            // Set active style for selected tab
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+            activeBtn.classList.add('border-blue-600', 'text-blue-600');
+
+            // If switching to demographics, cleanly rebuild the Chart to fit container dimensions nicely
+            if (tabId === 'demographics') {
+                setTimeout(() => {
+                    initDistrictChart(currentChartType);
+                }, 100);
+            }
+        }
+
+        // --- MS-WORD PROFESSIONAL EXPORT FUNCTION ---
+        // Compiles beautiful HTML template specifically designed to render professionally inside MS Word.
+        function exportToWord() {
+            // Generates demographics rows dynamically in raw styled HTML for Word Compatibility
+            let wordTableRows = '';
+            takeoDemographics.forEach(row => {
+                wordTableRows += `
+                    <tr style="border-bottom: 1px solid #dddddd;">
+                        <td style="padding: 8px; font-weight: bold; font-family: 'Khmer OS Battambang';">${row.district}</td>
+                        <td style="padding: 8px; text-align: right; font-family: 'Khmer OS Battambang';">${row.families.toLocaleString()}</td>
+                        <td style="padding: 8px; text-align: right; color: #1e3a8a; font-weight: bold; font-family: 'Khmer OS Battambang';">${row.total.toLocaleString()}</td>
+                        <td style="padding: 8px; text-align: right; font-family: 'Khmer OS Battambang';">${row.male.toLocaleString()}</td>
+                        <td style="padding: 8px; text-align: right; color: #db2777; font-family: 'Khmer OS Battambang';">${row.female.toLocaleString()}</td>
+                    </tr>
+                `;
+            });
+
+            // Fully structured professional document using standard MS Office Schema
+            const htmlContent = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset="UTF-8">
+                <title>ផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ឃុំ-សង្កាត់ ខេត្តតាកែវ</title>
+                <!--[if gte mso 9]>
+                <xml>
+                    <w:WordDocument>
+                        <w:View>Print</w:View>
+                        <w:Zoom>100</w:Zoom>
+                        <w:DoNotOptimizeForBrowser/>
+                    </w:WordDocument>
+                </xml>
+                <![endif]-->
+                <style>
+                    body {
+                        font-family: 'Khmer OS Battambang', 'Khmer OS Muol Light', Arial, sans-serif;
+                        line-height: 1.6;
+                        color: #333333;
+                        margin: 1in; /* Standard Professional Page Margin */
+                    }
+                    h1 {
+                        font-family: 'Khmer OS Muol Light', serif;
+                        color: #1e3a8a;
+                        text-align: center;
+                        font-size: 20pt;
+                        margin-bottom: 5px;
+                    }
+                    h2 {
+                        font-family: 'Khmer OS Muol Light', serif;
+                        color: #1e3a8a;
+                        font-size: 14pt;
+                        border-bottom: 2px solid #eab308;
+                        padding-bottom: 5px;
+                        margin-top: 30px;
+                    }
+                    h3 {
+                        font-family: 'Khmer OS Battambang', sans-serif;
+                        color: #0f172a;
+                        font-size: 12pt;
+                        font-weight: bold;
+                        margin-top: 20px;
+                    }
+                    p {
+                        font-size: 11pt;
+                        text-align: justify;
+                        text-indent: 0.5in;
+                        margin-bottom: 15px;
+                    }
+                    .no-indent {
+                        text-indent: 0;
+                    }
+                    .header-box {
+                        border: 2px double #1e3a8a;
+                        padding: 15px;
+                        text-align: center;
+                        margin-bottom: 40px;
+                    }
+                    .quote-box {
+                        background-color: #f8fafc;
+                        border-left: 4px solid #1e3a8a;
+                        padding: 12px 18px;
+                        margin: 15px 0;
+                        font-style: italic;
+                    }
+                    .img-placeholder {
+                        background-color: #f1f5f9;
+                        border: 1px dashed #cbd5e1;
+                        padding: 20px;
+                        text-align: center;
+                        font-size: 10pt;
+                        color: #475569;
+                        margin: 20px 0;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                        font-size: 10pt;
+                    }
+                    th {
+                        background-color: #1e3a8a;
+                        color: #ffffff;
+                        padding: 8px;
+                        font-weight: bold;
+                        border: 1px solid #dddddd;
+                    }
+                    td {
+                        border: 1px solid #dddddd;
+                        padding: 8px;
+                    }
+                    .footer {
+                        text-align: center;
+                        font-size: 9pt;
+                        color: #64748b;
+                        margin-top: 50px;
+                        border-top: 1px solid #e2e8f0;
+                        padding-top: 10px;
+                    }
+                </style>
+            </head>
+            <body>
+                <!-- Report Cover / Header Box -->
+                <div class="header-box">
+                    <h1 style="margin:0;">ព្រះរាជាណាចក្រកម្ពុជា</h1>
+                    <h3 class="no-indent" style="margin:5px 0 20px 0; font-weight: normal; text-align: center;">ជាតិ សាសនា ព្រះមហាក្សត្រ</h3>
+                    <hr style="width: 150px; border: 1px solid #1e3a8a; margin-bottom: 25px;" />
+                    <h1 style="color:#1e3a8a; margin:10px 0;">រដ្ឋបាលខេត្តតាកែវ</h1>
+                    <h2 class="no-indent" style="border:none; text-align: center; font-size: 16pt; margin: 5px 0 10px 0;">របាយការណ៍ផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ឃុំ-សង្កាត់</h2>
+                    <p class="no-indent" style="text-align: center; font-weight: bold; font-size:12pt; color:#475569;">ទិន្នន័យរួម និងសូចនាករគន្លឹះឆ្នាំ ២០២១ - ២០២៦</p>
+                </div>
+
+                <h2>១. សេចក្តីសង្ខេបនាយក (Executive Summary)</h2>
+                <p>
+                    ខេត្តតាកែវ គឺជាខេត្តមួយដែលមានសក្តានុពលខ្ពស់ផ្នែកកសិកម្ម ទេសចរណ៍វប្បធម៌ និងការអភិវឌ្ឍន៍សេដ្ឋកិច្ចមូលដ្ឋាន។ ផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ឃុំ-សង្កាត់នេះ ត្រូវបានរៀបចំឡើងដើម្បីឆ្លើយតបទៅនឹងតម្រូវការជាក់ស្តែងរបស់ប្រជាពលរដ្ឋ ស្របតាមគោលនយោបាយកំណែទម្រង់វិមជ្ឈការ និងវិសហមជ្ឈការរបស់រាជរដ្ឋាភិបាលកម្ពុជា។
+                </p>
+                <p>
+                    តាមរយៈការវិភាគទិន្នន័យជាក់លាក់ពីស្រុកទាំង១០ ក្នុងខេត្តតាកែវ ផែនការយុទ្ធសាស្ត្រនេះផ្តោតសំខាន់លើការកែលម្អហេដ្ឋារចនាសម្ព័ន្ធជនបទ ការលើកកម្ពស់សេវាសុខាភិបាល ការពង្រឹងគុណភាពអប់រំ និងការបង្កើនប្រភពចំណូលគ្រួសារ ដើម្បីកាត់បន្ថយភាពក្រីក្រប្រកបដោយចីរភាព។
+                </p>
+                
+                <div class="img-placeholder">
+                    <strong>[រូបភាព៖ កិច្ចប្រជុំពិគ្រោះយោបល់ស្តីពីផែនការយុទ្ធសាស្ត្រអភិវឌ្ឍន៍ខេត្តតាកែវ]</strong><br/>
+                    <span style="font-size: 9pt; color: #64748b;">ការប្រជុំរួមគ្នារវាងថ្នាក់ដឹកនាំខេត្ត អាជ្ញាធរមូលដ្ឋាន និងតំណាងដៃគូអភិវឌ្ឍន៍</span>
+                </div>
+
+                <h2>២. វិភាគទិន្នន័យប្រជាសាស្ត្រខេត្តតាកែវ (Demographic Analysis)</h2>
+                <p>
+                    យោងតាមទិន្នន័យប្រជាសាស្ត្រចុងក្រោយរបស់រដ្ឋបាលខេត្តតាកែវ ចំនួនគ្រួសារសរុបមានចំនួន ២៣០,២០៨ គ្រួសារ និងមានចំនួនប្រជាជនសរុប ១,០៤៥,៨១១ នាក់។ ខាងក្រោមនេះជាតារាងលម្អិតឆ្លុះបញ្ចាំងពីសូចនាករប្រជាជន និងយេនឌ័រតាមស្រុកនីមួយៗ៖
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">ស្រុក/ក្រុង</th>
+                            <th style="text-align: right;">ចំនួនគ្រួសារ</th>
+                            <th style="text-align: right;">ប្រជាជនសរុប</th>
+                            <th style="text-align: right;">ប្រុសសរុប</th>
+                            <th style="text-align: right;">ស្រីសរុប</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${wordTableRows}
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: #f1f5f9; font-weight: bold;">
+                            <td style="padding: 8px;">សរុបខេត្ត</td>
+                            <td style="padding: 8px; text-align: right;">230,208</td>
+                            <td style="padding: 8px; text-align: right;">1,045,811</td>
+                            <td style="padding: 8px; text-align: right;">508,790</td>
+                            <td style="padding: 8px; text-align: right;">537,021</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <p class="no-indent" style="font-style: italic; color: #475569; font-size: 10pt; margin-top: -10px;">
+                    *កំណត់ចំណាំ៖ ផ្អែកលើតារាងសូចនាករផ្លូវការ ស្រុកត្រាំកក់មានប្រជាជនច្រើនជាងគេបំផុត (២០១,២៣២ នាក់) និងស្រុកបូរីជលសារមានចំនួនតិចជាងគេបំផុត (២៩,៣៧៧ នាក់)។
+                </p>
+
+                <h2>៣. សសរស្តម្ភយុទ្ធសាស្ត្រគន្លឹះ (Strategic Pillars)</h2>
+                <p><strong>១. ហេដ្ឋារចនាសម្ព័ន្ធមូលដ្ឋាន៖</strong> លើកកម្ពស់គុណភាពផ្លូវលំជនបទ ការសាងសង់ប្រព័ន្ធធារាសាស្ត្រខ្នាតតូច និងការផ្តល់អគ្គិសនីប្រើប្រាស់នៅតាមសហគមន៍ជនបទដាច់ស្រយាល។</p>
+                <p><strong>២. សុខភាព និងការអប់រំ៖</strong> បង្កើនសមត្ថភាពមណ្ឌលសុខភាព និងការលើកកម្ពស់អនាម័យជនបទ ព្រមទាំងផ្តល់ការគាំទ្រសាលារៀន និងកាត់បន្ថយអត្រាបោះបង់ការសិក្សា។</p>
+                <p><strong>៣. កសិកម្ម និងជីវភាពគ្រួសារ៖</strong> ការបណ្តុះបណ្តាលបច្ចេកទេសកសិកម្មទំនើប ធន់នឹងការប្រែប្រួលអាកាសធាតុ និងការបង្កើតសហគមន៍កសិកម្មដើម្បីពង្រឹងទីផ្សារលក់ដូរផលិតផល។</p>
+
+                <h2>៤. មតិយោបល់ និងការដកស្រង់សំដីពីអ្នកពាក់ព័ន្ធ (Stakeholder Testimonials)</h2>
+                
+                <div class="quote-box">
+                    <strong>លោកស្រី តូច សារ៉ុម (តំណាងសហគមន៍ស្រ្តី ស្រុកសំរោង)៖</strong><br/>
+                    «ការលើកកម្ពស់ជីវភាពស្រ្តីក្នុងសហគមន៍ជាកត្តាចម្បងបំផុត។ ការផ្តល់បណ្តុះបណ្តាលវិជ្ជាជីវៈ និងប្រាក់កម្ចីខ្នាតតូចបានជួយឱ្យស្រ្តីនៅក្នុងឃុំរបស់យើងមានឯករាជ្យភាពផ្នែកហិរញ្ញវត្ថុ និងអាចចូលរួមក្នុងកិច្ចការអភិវឌ្ឍន៍ភូមិឃុំបានកាន់តែច្រើន។»
+                </div>
+
+                <div class="quote-box">
+                    <strong>លោក ស៊្រុន សុភ័ក្ត្រ (មេឃុំគោកធ្លក ស្រុកអង្គរបូរី)៖</strong><br/>
+                    «បញ្ហាផ្លូវថ្នល់ និងប្រព័ន្ធធារាសាស្ត្រជាក្តីបារម្ភចម្បងរបស់កសិករ។ នៅពេលដែលយើងទទួលបានកញ្ចប់ថវិកាអភិវឌ្ឍន៍ឃុំគ្រប់គ្រាន់ យើងនឹងផ្តល់អាទិភាពដោះស្រាយលើប្រព័ន្ធរំដោះទឹក និងការកសាងផ្លូវលំកៅស៊ូ ដែលជួយសម្រួលដល់ការដឹកជញ្ជូនកសិផល។»
+                </div>
+                
+                <div class="img-placeholder">
+                    <strong>[រូបភាព៖ ការចុះសាកសួរផ្ទាល់ជាមួយប្រជាសហគមន៍ជនបទ]</strong><br/>
+                    <span style="font-size: 9pt; color: #64748b;">ការចុះជួបពិភាក្សា និងដកស្រង់យោបល់ដើម្បីកសាងផែនការយុទ្ធសាស្ត្ររួម</span>
+                </div>
+
+                <h2>៥. ផែនការសកម្មភាព និងការអនុវត្ត (Implementation Plan)</h2>
+                <p>
+                    ផែនការអនុវត្តនេះត្រូវបានបែងចែកជាដំណាក់កាលត្រីមាស ដើម្បីធានាបាននូវគណនេយ្យភាព ប្រសិទ្ធភាព និងការតាមដានត្រួតពិនិត្យបានទៀងទាត់។ រាល់គម្រោងទាំងអស់ត្រូវមានការវាយតម្លៃផលប៉ះពាល់បរិស្ថាន និងការចូលរួមពីតំណាងប្រជាពលរដ្ឋយ៉ាងតិច ៣០%។
+                </p>
+                <p><strong>• ដំណាក់កាលទី១៖</strong> ការប្រមូលមតិយោបល់ ការកំណត់សកម្មភាពអាទិភាព និងការសម្រេចយល់ព្រមដោយក្រុមប្រឹក្សាឃុំ-សង្កាត់។</p>
+                <p><strong>• ដំណាក់កាលទី២៖</strong> លទ្ធកម្មសាងសង់ហេដ្ឋារចនាសម្ព័ន្ធជនបទ ប្រកបដោយតម្លាភាព និងគណនេយ្យភាពខ្ពស់។</p>
+                <p><strong>• ដំណាក់កាលទី៣៖</strong> ដំណើរការសាងសង់ ការចុះត្រួតពិនិត្យបច្ចេកទេស និងការវាយតម្លៃគុណភាពដោយប្រជាសហគមន៍។</p>
+
+                <div class="footer">
+                    <p class="no-indent">© ២០២៦ រដ្ឋបាលខេត្តតាកែវ។ របាយការណ៍ផ្លូវការបស់គណៈកម្មការរៀបចំផែនការអភិវឌ្ឍន៍ឃុំ-សង្កាត់។</p>
+                </div>
+            </body>
+            </html>
+            `;
+
+            // Convert to a Blob matching MS Word MIME type
+            const blob = new Blob(['\ufeff' + htmlContent], {
+                type: 'application/msword;charset=utf-8'
+            });
+
+            // Create a temporary link element to trigger downloading seamlessly
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'របាយការណ៍ផែនការយុទ្ធសាស្ត្រខេត្តតាកែវ.doc';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // On Document ready, load the Demographics table and initialize clean Chart.js
+        window.onload = function() {
+            populateDemographicsTable();
+            initDistrictChart(currentChartType);
+        };
+    </script>
+</body>
+</html>
